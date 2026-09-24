@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Background, Profile, CategoryCard, MatchCard, ExitModal, ListHeader } from '../components';
-import { MATCHES, CATEGORIES, MatchData } from '../mocks';
+import { Background, Profile, MatchCard, ExitModal, ListHeader, CategorySelect } from '../components';
+import { MATCHES, MatchData } from '../mocks';
 import { AppNavigationProp } from '../routes/types';
 import { LAYOUT } from '../theme';
 
@@ -57,11 +57,7 @@ const HomeScreen = ({
       />
 
       {/* Categorias */}
-      <View style={styles.categoriesRow}>
-        {CATEGORIES.map((cat) => (
-          <CategoryCard key={cat.id} name={cat.name} icon={cat.icon} />
-        ))}
-      </View>
+      <CategorySelect hasPadding style={{ marginBottom: 32 }} />
 
       {/* Seção de Partidas */}
       <ListHeader
@@ -105,12 +101,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingTop: 70,
     paddingBottom: 40,
-  },
-  categoriesRow: {
-    flexDirection: 'row',
-    paddingHorizontal: LAYOUT.horizontalPadding,
-    gap: 8,
-    marginBottom: 32,
   },
   matchItemContainer: {
     paddingHorizontal: LAYOUT.horizontalPadding,

@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Background, Header, ListHeader, PlayerCard, ButtonIcon } from '../components';
+import { Background, Header, ListHeader, PlayerCard, ButtonIcon, ServerBanner } from '../components';
 import { PLAYERS } from '../mocks';
 import { AppNavigationProp } from '../routes/types';
 import { COLORS, FONTS, LAYOUT } from '../theme';
@@ -33,25 +33,12 @@ const ServerDetailsScreen = ({ onGoBack }: ServerDetailsScreenProps) => {
 
   const renderHeader = () => (
     <View>
-      {/* Banner com imagem de fundo */}
-      <View style={styles.bannerContainer}>
-        <Image
-          source={require('../../assets/lol-fundo.png')}
-          style={styles.bannerImage}
-          resizeMode="cover"
-        />
-        <LinearGradient
-          colors={['transparent', 'rgba(18, 29, 51, 0.61)', 'rgba(18, 29, 51, 0.83)', '#121D33']}
-          locations={[0, 0.46, 0.77, 1]}
-          style={styles.bannerOverlay}
-        />
-        <View style={styles.bannerTextContainer}>
-          <Text style={styles.serverName}>Lendários</Text>
-          <Text style={styles.serverDescription}>
-            É hoje que vamos chegar ao challenger sem perder uma partida da md10
-          </Text>
-        </View>
-      </View>
+      {/* Banner */}
+      <ServerBanner
+        image={require('../../assets/lol-fundo.png')}
+        title="Lendários"
+        description="É hoje que vamos chegar ao challenger sem perder uma partida da md10"
+      />
 
       {/* Cabeçalho da seção de Jogadores */}
       <ListHeader title="Jogadores" subtitle={`Total ${PLAYERS.length}`} />
@@ -125,43 +112,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
 
-  /* Banner */
-  bannerContainer: {
-    height: 234,
-    position: 'relative',
-    marginBottom: 24,
-  },
-  bannerImage: {
-    width: '100%',
-    height: 234,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    opacity: 0.7,
-  },
-  bannerOverlay: {
-    ...StyleSheet.absoluteFill,
-  },
-  bannerTextContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: LAYOUT.horizontalPadding,
-    right: LAYOUT.horizontalPadding,
-    paddingBottom: 16,
-  },
-  serverName: {
-    fontFamily: FONTS.titleBold,
-    fontSize: 28,
-    lineHeight: 36,
-    color: COLORS.heading,
-    marginBottom: 8,
-  },
-  serverDescription: {
-    fontFamily: FONTS.regular,
-    fontSize: 13,
-    lineHeight: 21,
-    color: COLORS.heading,
-  },
+  /* Banner (Estilos removidos pois agora usa o componente ServerBanner) */
 
   /* Jogadores */
   playerItemContainer: {

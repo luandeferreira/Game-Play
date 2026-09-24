@@ -19,8 +19,10 @@ import {
   SmallInput,
   TextArea,
   ModalServerSelect,
+  CategorySelect,
+  ServerSelector,
 } from '../components';
-import { CATEGORIES, ServerData } from '../mocks';
+import { ServerData } from '../mocks';
 import { AppNavigationProp } from '../routes/types';
 import { COLORS, FONTS, LAYOUT } from '../theme';
 
@@ -68,43 +70,18 @@ const ScheduleScreen = ({ onGoBack }: ScheduleScreenProps) => {
         >
           {/* Categoria */}
           <Text style={styles.sectionTitle}>Categoria</Text>
-          <View style={styles.categoriesRow}>
-            {CATEGORIES.map((cat) => (
-              <CategoryCard
-                key={cat.id}
-                name={cat.name}
-                icon={cat.icon}
-                selected={selectedCategory === cat.id}
-                onPress={() => setSelectedCategory(cat.id)}
-              />
-            ))}
-          </View>
+          <CategorySelect
+            categorySelected={selectedCategory}
+            setCategory={setSelectedCategory}
+            style={{ marginBottom: 28 }}
+          />
 
           {/* Servidor */}
           <Text style={styles.sectionTitle}>Servidor</Text>
-          <Pressable
-            style={styles.serverSelector}
+          <ServerSelector
+            selectedServer={selectedServer}
             onPress={() => setShowServerModal(true)}
-          >
-            <LinearGradient
-              colors={[COLORS.inputGradient[0], COLORS.inputGradient[1]]}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 0, y: 0 }}
-              style={styles.serverIconArea}
-            >
-              {selectedServer && (
-                <Image
-                  source={selectedServer.icon}
-                  style={styles.serverIconImage}
-                  resizeMode="cover"
-                />
-              )}
-            </LinearGradient>
-            <Text style={styles.serverText}>
-              {selectedServer ? selectedServer.name : 'Selecione um servidor'}
-            </Text>
-            <Text style={styles.serverArrow}>›</Text>
-          </Pressable>
+          />
 
           {/* Data e Hora */}
           <View style={styles.dateTimeHeader}>

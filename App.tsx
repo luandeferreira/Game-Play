@@ -1,13 +1,12 @@
-import { StyleSheet, View, Image, Pressable, Animated } from 'react-native';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useState, useRef } from 'react';
 import { useFonts } from 'expo-font';
 import { Rajdhani_700Bold } from '@expo-google-fonts/rajdhani';
 import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { useAssets } from 'expo-asset';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { HomeScreen, LoginScreen, ScheduleScreen, ServerDetailsScreen } from './src/screens';
-import { COLORS } from './src/theme';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -40,97 +39,14 @@ export default function App() {
     require('./assets/compartilhar.png'),
   ]);
 
-  const [currentScreen, setCurrentScreen] = useState('Splash');
-  const opacity = useRef(new Animated.Value(1)).current;
-
-  const navigateTo = (screen: string) => {
-    // Animação "Dissolve" de 300ms com ease-out
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      setCurrentScreen(screen);
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    });
-  };
-
   if (!fontsLoaded || !assets) {
     return null;
   }
 
-  if (currentScreen === 'ServerDetails') {
-    return (
-      <Animated.View style={{ flex: 1, opacity }}>
-        <ServerDetailsScreen onGoBack={() => navigateTo('Home')} />
-      </Animated.View>
-    );
-  }
-
-  if (currentScreen === 'Schedule') {
-    return (
-      <Animated.View style={{ flex: 1, opacity }}>
-        <ScheduleScreen onGoBack={() => navigateTo('Home')} />
-      </Animated.View>
-    );
-  }
-
-  if (currentScreen === 'Home') {
-    return (
-      <Animated.View style={{ flex: 1, opacity }}>
-        <HomeScreen
-          onNavigateToSchedule={() => navigateTo('Schedule')}
-          onNavigateToServerDetails={() => navigateTo('ServerDetails')}
-        />
-      </Animated.View>
-    );
-  }
-
-  if (currentScreen === 'Login') {
-    return (
-      <Animated.View style={{ flex: 1, opacity }}>
-        <LoginScreen onNavigate={() => navigateTo('Home')} />
-      </Animated.View>
-    );
-  }
-
-  // Splash Screen
   return (
-    <Animated.View style={{ flex: 1, opacity }}>
-      <Pressable style={styles.splashContainer} onPress={() => navigateTo('Login')}>
-        <View style={styles.splashContent}>
-          <Image
-            source={require('./assets/logo.png')}
-            style={styles.splashLogo}
-            resizeMode="contain"
-          />
-        </View>
-        <StatusBar style="light" />
-      </Pressable>
-    </Animated.View>
+    <SafeAreaProvider>
+      <StatusBar style="light" />
+      <Routes />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  splashContainer: {
-    flex: 1,
-    backgroundColor: COLORS.backgroundLight,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  splashContent: {
-    paddingVertical: 16,
-    paddingHorizontal: 8,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  splashLogo: {
-    width: 344,
-    height: 100,
-  },
-});

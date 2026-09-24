@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, Pressable, ImageSourcePropType } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View, Text, Pressable, ImageSourcePropType } from 'react-native';
+import Avatar from './Avatar';
 import { COLORS, FONTS } from '../theme';
 
 interface ProfileProps {
@@ -13,14 +13,7 @@ interface ProfileProps {
 const Profile = ({ avatar, name, subtitle, onAddPress }: ProfileProps) => (
   <View style={styles.container}>
     <View style={styles.row}>
-      <LinearGradient
-        colors={[COLORS.avatarBorderStart, COLORS.avatarBorderEnd]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        style={styles.avatarBorder}
-      >
-        <Image source={avatar} style={styles.avatar} resizeMode="cover" />
-      </LinearGradient>
+      <Avatar urlImage={avatar} />
       <View style={styles.info}>
         <Text style={styles.greeting}>
           Olá, <Text style={styles.greetingBold}>{name}</Text>
@@ -46,18 +39,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  avatarBorder: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatar: {
-    width: 46,
-    height: 46,
-    borderRadius: 8,
   },
   info: {
     flex: 1,

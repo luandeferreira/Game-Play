@@ -31,6 +31,11 @@ export const COLORS = {
   // Input fields
   inputBackground: '#1D2766',
   inputBorder: '#243189',
+  inputGradient: ['#1D2766', '#171F52'] as const,
+
+  // Modal
+  modalGradient: ['#0A1033', '#0E1647'] as const,
+  modalOverlay: 'rgba(0, 0, 0, 0.8)',
 
   // Secondary
   secondary: '#495BCC',
@@ -44,3 +49,14 @@ export const FONTS = {
   regular: 'Inter_400Regular',
   medium: 'Inter_500Medium',
 };
+
+// Constantes de layout para evitar números mágicos
+export const LAYOUT = {
+  buttonHeight: 56,
+  inputHeight: 48,
+  cardBorderRadius: 8,
+  modalBorderRadius: 16,
+  horizontalPadding: 24,
+  headerHorizontalPadding: 20,
+};
+

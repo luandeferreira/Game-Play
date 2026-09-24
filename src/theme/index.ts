@@ -28,6 +28,13 @@ export const COLORS = {
   // Overlay / Dividers
   divider: 'rgba(221, 227, 240, 0.08)',
 
+  // Input fields
+  inputBackground: '#1D2766',
+  inputBorder: '#243189',
+
+  // Secondary
+  secondary: '#495BCC',
+
   white: '#FFFFFF',
 };
 

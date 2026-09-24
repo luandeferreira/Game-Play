@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { Background, Profile, CategoryCard, MatchCard } from '../components';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, ScrollView, BackHandler } from 'react-native';
+import { Background, Profile, CategoryCard, MatchCard, ExitModal } from '../components';
 import { MatchData } from '../components/MatchCard';
 import { COLORS, FONTS } from '../theme';
 
@@ -54,7 +54,30 @@ const CATEGORIES = [
   { id: '3', name: 'Diversão', icon: require('../../assets/diversao.png') },
 ];
 
-const HomeScreen = () => {
+interface HomeScreenProps {
+  onNavigateToSchedule?: () => void;
+  onNavigateToServerDetails?: () => void;
+}
+
+const HomeScreen = ({ onNavigateToSchedule, onNavigateToServerDetails }: HomeScreenProps) => {
+  const [showExitModal, setShowExitModal] = useState(false);
+
+  // Interceptar o botão "voltar" do Android para exibir o modal de saída
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      setShowExitModal(true);
+      return true; // Impede o comportamento padrão
+    });
+    return () => backHandler.remove();
+  }, []);
+
+  const handleMatchPress = (matchId: string) => {
+    // Navegar para detalhes do servidor "Lendários"
+    if (matchId === '1' && onNavigateToServerDetails) {
+      onNavigateToServerDetails();
+    }
+  };
+
   return (
     <Background>
       <ScrollView
@@ -67,7 +90,7 @@ const HomeScreen = () => {
           avatar={require('../../assets/tiagofoto.png')}
           name="Tiago"
           subtitle="Hoje é dia de vitória"
-          onAddPress={() => {}}
+          onAddPress={onNavigateToSchedule}
         />
 
         {/* Categorias */}
@@ -86,10 +109,21 @@ const HomeScreen = () => {
         {/* Lista de Partidas */}
         <View style={styles.matchList}>
           {MATCHES.map((match) => (
-            <MatchCard key={match.id} match={match} />
+            <MatchCard
+              key={match.id}
+              match={match}
+              onPress={() => handleMatchPress(match.id)}
+            />
           ))}
         </View>
       </ScrollView>
+
+      {/* Modal de confirmação de saída */}
+      <ExitModal
+        visible={showExitModal}
+        onClose={() => setShowExitModal(false)}
+        onConfirm={() => BackHandler.exitApp()}
+      />
     </Background>
   );
 };

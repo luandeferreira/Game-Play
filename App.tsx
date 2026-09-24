@@ -6,7 +6,7 @@ import { Rajdhani_700Bold } from '@expo-google-fonts/rajdhani';
 import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import { useAssets } from 'expo-asset';
 
-import { HomeScreen, LoginScreen } from './src/screens';
+import { HomeScreen, LoginScreen, ScheduleScreen, ServerDetailsScreen } from './src/screens';
 import { COLORS } from './src/theme';
 
 export default function App() {
@@ -30,6 +30,14 @@ export default function App() {
     require('./assets/csgo.png'),
     require('./assets/apex.png'),
     require('./assets/valorant.png'),
+    require('./assets/gta.png'),
+    require('./assets/minecraft.png'),
+    require('./assets/battlefield.png'),
+    require('./assets/lol-fundo.png'),
+    require('./assets/tiagopic.png'),
+    require('./assets/rodrigopic.png'),
+    require('./assets/diegopic.png'),
+    require('./assets/compartilhar.png'),
   ]);
 
   const [currentScreen, setCurrentScreen] = useState('Splash');
@@ -55,10 +63,29 @@ export default function App() {
     return null;
   }
 
+  if (currentScreen === 'ServerDetails') {
+    return (
+      <Animated.View style={{ flex: 1, opacity }}>
+        <ServerDetailsScreen onGoBack={() => navigateTo('Home')} />
+      </Animated.View>
+    );
+  }
+
+  if (currentScreen === 'Schedule') {
+    return (
+      <Animated.View style={{ flex: 1, opacity }}>
+        <ScheduleScreen onGoBack={() => navigateTo('Home')} />
+      </Animated.View>
+    );
+  }
+
   if (currentScreen === 'Home') {
     return (
       <Animated.View style={{ flex: 1, opacity }}>
-        <HomeScreen />
+        <HomeScreen
+          onNavigateToSchedule={() => navigateTo('Schedule')}
+          onNavigateToServerDetails={() => navigateTo('ServerDetails')}
+        />
       </Animated.View>
     );
   }
